@@ -46,6 +46,12 @@ module.exports = options => {
 
 		const subprocess = execa(process.execPath, args, {buffer: false});
 
+		if (options.outputstreams) {
+			for(let stream of options.outputstreams) {
+				subprocess.stdout.pipe(stream);
+			}
+		}
+
 		if (!options.silent) {
 			subprocess.stdout.pipe(process.stdout);
 			subprocess.stderr.pipe(process.stderr);
